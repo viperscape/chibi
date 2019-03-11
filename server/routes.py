@@ -16,7 +16,10 @@ def blogroll():
 
 @routes.route('/blog/', methods=["POST"])
 def blogedit():
-    return "1"
+    if not session['authorized']:
+        return 403
+
+    return 200
 
 @routes.route('/login/', methods=["POST"])
 def login():
