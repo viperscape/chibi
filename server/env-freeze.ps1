@@ -1,0 +1,1 @@
+pip freeze -l > .\env-packages.txt
