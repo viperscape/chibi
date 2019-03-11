@@ -10,7 +10,7 @@ const StatusNone = 0,
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {status: StatusNone};
+        this.state = {status: this.props.auth? StatusAuthorized : StatusNone};
         this.user = React.createRef();
         this.password = React.createRef();
 

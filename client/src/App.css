@@ -36,6 +36,17 @@
 
 .Blog-post-title {
     color: #385a9c;
+    float: left;
+    display: inline-flex;
+}
+
+.Blog-post-body {
+    margin-top: 40px;
+}
+
+.Blog-post-edit-btn {
+    float: right;
+    display: inline-flex;
 }
 
 .Login {
