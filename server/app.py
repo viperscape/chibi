@@ -1,9 +1,15 @@
 from flask import Flask
 from routes import routes
-from db import Database
+from db import init_db
 
-class App:
-    def __init__(self):
-        self.app = Flask(__name__)
-        self.db = Database(self.app, "blog.db", "schema.sql")
-        self.app.register_blueprint(routes)
+
+app = Flask(__name__)
+db = init_db(app, "blog.db")
+
+from post import Post
+db.create_all()
+
+post = Post(title="init-post", body="This is an initial post.")
+db.session.add(post)
+
+app.register_blueprint(routes)
