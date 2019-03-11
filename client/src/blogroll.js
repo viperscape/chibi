@@ -33,13 +33,13 @@ class BlogRoll extends Component {
     {
         return (
             <div>
-                <span>Blog Roll</span><br></br>
+                <span className="Blog-header"><h2>Blog Roll</h2></span>
                 <br></br>
-                <div>
+                <div className="Blog-posts">
                     { this.state.blog.map((post, key) => 
-                        <div key={key}>
-                            <div>{post.title}</div>
-                            <div>{post.body}</div><br></br>
+                        <div key={key} className="Blog-post">
+                            <div className="Blog-post-title">{post.title}</div>
+                            <div>{post.body}</div>
                         </div>
                     )}
                 </div>
