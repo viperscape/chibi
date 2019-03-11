@@ -22,7 +22,10 @@ class Login extends Component {
     {
         fetch(config.backend.server + "/login/", {
             method: "POST",
-            body: {"username": this.user.current.value, "password": this.password.current.value }
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"username": this.user.current.value, "password": this.password.current.value })
         })
         .then(function(res) {
             return res.json();

@@ -6,25 +6,27 @@ from post import Post
 
 routes = Blueprint('routes', __name__)
 
-def allow_cors(data):
-    resp = make_response(data)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
-
 @routes.route('/blog/', methods=["GET"])
 def blogroll():
     #req = request.get_json()
     q = Post.query.limit(5)
     posts = [{"id":post.id, "title": post.title, "body": post.body} for post in q]
     blog = {"posts":posts}
-    return allow_cors(json.dumps(blog))
+    return json.dumps(blog)
 
 @routes.route('/blog/', methods=["POST"])
 def blogedit():
-    return allow_cors("1")
+    return "1"
 
 @routes.route('/login/', methods=["POST"])
 def login():
-    print(request)
-    status = {"authorized": session.get("authorized")}
-    return allow_cors(json.dumps(status))
+    req = request.get_json(silent=True)
+    if req == None: return json.dumps({"error": "invalid request"}), 400
+
+    if req["username"] == "admin" and req["password"] == "pass":
+        session['authorized'] = True
+    else:
+        session['authorized'] = False
+
+    status = {"authorized": session['authorized']}
+    return json.dumps(status)
