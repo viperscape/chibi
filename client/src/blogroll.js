@@ -5,7 +5,7 @@ class BlogRoll extends Component {
     constructor(props)
     {
         super(props);
-        this.state = {blog:[]};
+        this.state = {blog:[], loading: true, error: null};
     }
 
     getBlog()
@@ -16,15 +16,20 @@ class BlogRoll extends Component {
         })
         .catch(function(err)
         {
-            console.log(err)
-        });
+            console.error(err)
+            this.setState({
+                error: "Server communication error",
+                loading: false
+            });
+        }.bind(this));
     }
 
     componentDidMount()
     {
         this.getBlog().then(function(res) {
             this.setState({
-                blog: res.posts
+                blog: res.posts,
+                loading: false
             });
         }.bind(this));
     }
@@ -34,7 +39,9 @@ class BlogRoll extends Component {
         return (
             <div>
                 <span className="Blog-header"><h2>Blog Roll</h2></span>
-                <br></br>
+                <div>{this.state.status && <span>Loading...</span>}</div>
+                <div>{this.state.error && <span>{this.state.error}</span>}</div>
+
                 <div className="Blog-posts">
                     { this.state.blog.map((post, key) => 
                         <div key={key} className="Blog-post">
