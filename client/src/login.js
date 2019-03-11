@@ -31,6 +31,7 @@ class Login extends Component {
             return res.json();
         })
         .then(function(res) {
+            this.props.bus.emit("authorized", res.authorized);
             this.setState({
                 status: res.authorized? StatusAuthorized:StatusUnauthorized
             });
