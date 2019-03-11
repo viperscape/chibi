@@ -1,8 +1,9 @@
 .App {
-    text-align: center;
+    background-color: #282c34;
 }
 
-.App-header {
+.App-main {
+    text-align: center;
     background-color: #282c34;
     min-height: 100vh;
     display: flex;
@@ -35,4 +36,13 @@
 
 .Blog-post-title {
     color: #385a9c;
+}
+
+.Login {
+    float: top;
+    margin: 20px;
+    margin-top: 0px;
+    padding-top: 10px;
+    background-color: #282c34;
+    color: rgba(255, 255, 255, 0.616);
 }
