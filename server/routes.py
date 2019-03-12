@@ -19,8 +19,13 @@ def blogedit():
     if "authorized" in session:
         data = request.get_json()
         p = Post.query.filter_by(id=data["id"]).first()
-        p.body = data["body"]
-        p.title = data["title"]
+        if p: # edit a previous post (this could be moved out to a separate PUT route)
+            p.body = data["body"]
+            p.title = data["title"]
+        else: # add a new post
+            p = Post(title=data["title"], body=data["body"])
+            db.session.add(p)
+
         db.session.commit()
         return json.dumps({"ok": "post updated"})
     else:
