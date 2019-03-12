@@ -34,11 +34,45 @@ class BlogRoll extends Component {
         this.props.bus.emit("new", true);
     }
 
-    componentDidMount()
+    getPosts()
     {
         this.getBlog().then(function(res) {
             this.setState({
                 blog: res.posts,
+                loading: false
+            });
+        }.bind(this));
+    }
+
+    componentDidMount()
+    {
+        this.getPosts();
+    }
+
+    deletePost(id)
+    {
+        fetch(config.backend.server + "/blog/", {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id: id})
+        })
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function (res){
+            console.log(res)
+            this.props.bus.emit("edit", null);
+            this.props.bus.emit("new", false);
+            this.getPosts();
+        }.bind(this))
+        .catch(function(err)
+        {
+            console.error(err)
+            this.setState({
+                error: "Server communication error",
                 loading: false
             });
         }.bind(this));
@@ -60,6 +94,11 @@ class BlogRoll extends Component {
                             {this.props.auth &&
                                 <div className="Blog-post-edit-btn">
                                     <button onClick={() => this.editPost(post)}>Edit</button>
+                                </div>
+                            }
+                            {this.props.auth &&
+                                <div className="Blog-post-delete-btn">
+                                    <button onClick={() => this.deletePost(post.id)}>Delete</button>
                                 </div>
                             }
                             <div className="Blog-post-title">{post.title}</div>

@@ -9,13 +9,13 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/blog/', methods=["GET"])
 def blogroll():
-    q = Post.query.limit(5)
+    q = Post.query.order_by(Post.id.desc()).limit(5)
     posts = [{"id":post.id, "title": post.title, "body": post.body} for post in q]
     blog = {"posts":posts}
     return json.dumps(blog)
 
 @routes.route('/blog/', methods=["POST"])
-def blogedit():
+def postEdit():
     if "authorized" in session:
         data = request.get_json()
         p = Post.query.filter_by(id=data["id"]).first()
@@ -25,6 +25,20 @@ def blogedit():
         else: # add a new post
             p = Post(title=data["title"], body=data["body"])
             db.session.add(p)
+
+        db.session.commit()
+        return json.dumps({"ok": "post updated"})
+    else:
+        return json.dumps({"error": "not authorized"}), 403
+
+@routes.route('/blog/', methods=["DELETE"])
+def postDelete():
+    if "authorized" in session:
+        data = request.get_json()
+        p = Post.query.filter_by(id=data["id"]).delete()
+        print(p)
+        if not p: # no post found
+            return json.dumps({"error": "post not found"}), 404
 
         db.session.commit()
         return json.dumps({"ok": "post updated"})
