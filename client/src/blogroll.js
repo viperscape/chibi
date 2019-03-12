@@ -29,6 +29,11 @@ class BlogRoll extends Component {
         this.props.bus.emit("edit", post);
     }
 
+    newPost()
+    {
+        this.props.bus.emit("new", true);
+    }
+
     componentDidMount()
     {
         this.getBlog().then(function(res) {
@@ -44,6 +49,8 @@ class BlogRoll extends Component {
         return (
             <div>
                 <span className="Blog-header"><h2>Blog Roll</h2></span>
+                <button onClick={() => this.newPost()}>Add Post</button>
+
                 <div>{this.state.status && <span>Loading...</span>}</div>
                 <div>{this.state.error && <span>{this.state.error}</span>}</div>
 

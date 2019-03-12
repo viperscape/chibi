@@ -10,11 +10,20 @@ class Edit extends Component
         this.updateTitle = this.updateTitle.bind(this);
         this.updateBody = this.updateBody.bind(this);
 
-        this.state = {
-            title: this.props.post.title,
-            body: this.props.post.body,
-            id: this.props.post.id
-        };
+        if (this.props.edit) {
+            this.state = {
+                title: this.props.post.title,
+                body: this.props.post.body,
+                id: this.props.post.id
+            };
+        }
+        else {
+            this.state = {
+                title: "title here",
+                body: "some stuff here",
+                id: -1
+            };
+        }
     }
 
     submitPost()
@@ -31,7 +40,9 @@ class Edit extends Component
             return res.json();
         })
         .then(function (res){
+            console.log(res)
             this.props.bus.emit("edit", null);
+            this.props.bus.emit("new", false);
         }.bind(this))
         .catch(function(err)
         {
@@ -58,7 +69,7 @@ class Edit extends Component
         return (
             <div className="Edit-post">
                 <div>
-                    <span>Editing {this.props.post.title}</span>
+                    <span>Editing {this.state.title}</span>
                 </div>
                 <div>
                     <textarea className="Edit-post-title" value={this.state.title} onChange={this.updateTitle}/>
