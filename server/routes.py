@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask import redirect, url_for
 import json
 from post import Post
+from app import db
 
 routes = Blueprint('routes', __name__)
 
@@ -18,6 +19,11 @@ def blogroll():
 def blogedit():
     print(session, request.cookies)
     if "authorized" in session:
+        data = request.get_json()
+        p = Post.query.filter_by(id=data["id"]).first()
+        p.body = data["body"]
+        p.title = data["title"]
+        db.session.commit()
         return json.dumps({"ok": "post updated"})
     else:
         return json.dumps({"error": "not authorized"}), 403

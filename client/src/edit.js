@@ -31,7 +31,6 @@ class Edit extends Component
             return res.json();
         })
         .then(function (res){
-            console.log(res);
             this.props.bus.emit("edit", null);
         }.bind(this))
         .catch(function(err)
