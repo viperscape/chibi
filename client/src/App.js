@@ -11,6 +11,9 @@ const bus = new EventEmitter();
 class App extends Component {
     constructor(props) {
         super(props);
+        // NOTE we store the authorized state in sessionStorage so it matches up
+        // with the server's session, this is really out of convenience
+        // and only so that the react components reflect that on page refreshes
         this.state = {authorized: sessionStorage.getItem("authorized"), edit: null};
         bus.on("authorized", function (x) { 
             this.setState({authorized: x});
