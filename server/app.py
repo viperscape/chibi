@@ -11,9 +11,7 @@ if __name__ == "__main__":
         from routes import routes
         from post import Post
         db.create_all()
-        p = Post(title="init-post", body="This is an initial post.")
-        db.session.add(p)
-        db.session.commit()
+        
     except Exception as Error:
         print("init post error", Error)
 

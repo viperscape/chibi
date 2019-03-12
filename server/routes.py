@@ -36,7 +36,6 @@ def postDelete():
     if "authorized" in session:
         data = request.get_json()
         p = Post.query.filter_by(id=data["id"]).delete()
-        print(p)
         if not p: # no post found
             return json.dumps({"error": "post not found"}), 404
 
