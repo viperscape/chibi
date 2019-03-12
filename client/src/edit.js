@@ -40,7 +40,7 @@ class Edit extends Component
             return res.json();
         })
         .then(function (res){
-            console.log(res)
+            if (res.error) this.props.bus.emit("authorized", false);
             this.props.bus.emit("edit", null);
             this.props.bus.emit("new", false);
         }.bind(this))

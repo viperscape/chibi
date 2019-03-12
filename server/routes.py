@@ -59,7 +59,6 @@ def login():
 
 @routes.route('/logout/')
 def logout():
-    if "authorized" in session:
-        session.pop("authorized", None)
+    session.pop("authorized", None)
 
     return ""

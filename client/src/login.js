@@ -51,12 +51,12 @@ class Login extends Component {
     
     logout(event)
     {
+        this.props.bus.emit("authorized", false);
         fetch(config.backend.server + "/logout/", {
             method: "GET",
             credentials: "include"
         })
         .then(function(res) {
-            this.props.bus.emit("authorized", false);
             this.setState({
                 status: StatusNone
             });
