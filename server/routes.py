@@ -16,10 +16,11 @@ def blogroll():
 
 @routes.route('/blog/', methods=["POST"])
 def blogedit():
-    if not session['authorized']:
-        return 403
-
-    return 200
+    print(session, request.cookies)
+    if "authorized" in session:
+        return json.dumps({"ok": "post updated"})
+    else:
+        return json.dumps({"error": "not authorized"}), 403
 
 @routes.route('/login/', methods=["POST"])
 def login():
@@ -27,9 +28,16 @@ def login():
     if req == None: return json.dumps({"error": "invalid request"}), 400
 
     if req["username"] == "admin" and req["password"] == "pass":
-        session['authorized'] = True
+        session["authorized"] = True
     else:
-        session['authorized'] = False
+        session["authorized"] = False
 
-    status = {"authorized": session['authorized']}
+    status = {"authorized": session["authorized"]}
     return json.dumps(status)
+
+@routes.route('/logout/')
+def logout():
+    if "authorized" in session:
+        session.pop("authorized", None)
+
+    return ""

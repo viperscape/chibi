@@ -24,31 +24,9 @@ class BlogRoll extends Component {
         }.bind(this));
     }
 
-    submitPost()
+    editPost(post)
     {
-        fetch(config.backend.server + "/blog/", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json"
-            },
-            body: JSON.stringify({})
-        })
-        .then(function(res) {
-            return res.json();
-        })
-        .catch(function(err)
-        {
-            console.error(err)
-            this.setState({
-                error: "Server communication error",
-                loading: false
-            });
-        });
-    }
-
-    editPost(id)
-    {
-        console.log(id);
+        this.props.bus.emit("edit", post);
     }
 
     componentDidMount()
@@ -74,7 +52,7 @@ class BlogRoll extends Component {
                         <div key={key} className="Blog-post">
                             {this.props.auth &&
                                 <div className="Blog-post-edit-btn">
-                                    <button onClick={() => this.editPost(post.id)}>Edit</button>
+                                    <button onClick={() => this.editPost(post)}>Edit</button>
                                 </div>
                             }
                             <div className="Blog-post-title">{post.title}</div>

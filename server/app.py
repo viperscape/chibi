@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 db = init_db(app, "blog.db")
-CORS(app)
+CORS(app, supports_credentials=True)
 
 if __name__ == "__main__":
     try: # setup initial db post
@@ -20,5 +20,5 @@ if __name__ == "__main__":
     app.register_blueprint(routes)
 
     import os
-    app.secret_key = os.urandom(12)
+    app.secret_key = os.urandom(24)
     app.run()
