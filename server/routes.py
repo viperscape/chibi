@@ -9,7 +9,6 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/blog/', methods=["GET"])
 def blogroll():
-    #req = request.get_json()
     q = Post.query.limit(5)
     posts = [{"id":post.id, "title": post.title, "body": post.body} for post in q]
     blog = {"posts":posts}
@@ -17,7 +16,6 @@ def blogroll():
 
 @routes.route('/blog/', methods=["POST"])
 def blogedit():
-    print(session, request.cookies)
     if "authorized" in session:
         data = request.get_json()
         p = Post.query.filter_by(id=data["id"]).first()
