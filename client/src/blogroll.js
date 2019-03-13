@@ -93,7 +93,7 @@ class BlogRoll extends Component {
                 <div className="container u-full-width">
                     { this.state.blog.map((post, key) => 
                         <div key={key}>
-                            <div className="panel">
+                            <div className="panel u-full-width">
                                 <p>
                                     {post.title}
                                     <div className="u-pull-right">
