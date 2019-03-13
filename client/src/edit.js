@@ -24,6 +24,11 @@ class Edit extends Component
                 id: -1
             };
         }
+
+        this.reset = function() {
+            this.props.bus.emit("edit", null);
+            this.props.bus.emit("new", false);
+        }.bind(this);
     }
 
     submitPost()
@@ -41,8 +46,7 @@ class Edit extends Component
         })
         .then(function (res){
             if (res.error) this.props.bus.emit("authorized", false);
-            this.props.bus.emit("edit", null);
-            this.props.bus.emit("new", false);
+            this.reset();
         }.bind(this))
         .catch(function(err)
         {
@@ -79,6 +83,7 @@ class Edit extends Component
                 </div>
                 <div>
                     <button onClick={this.submitPost}>Update post</button>
+                    <button onClick={this.reset}>Cancel</button>
                 </div>
             </div>
         );
