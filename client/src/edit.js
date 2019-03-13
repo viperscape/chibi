@@ -71,7 +71,7 @@ class Edit extends Component
     render()
     {
         return (
-            <div className="container">
+            <div className="container u-full-width">
                 <div>
                     {this.props.post &&
                     <span>Editing: <strong>{this.props.post.title}</strong></span>
@@ -81,10 +81,10 @@ class Edit extends Component
                     }
                 </div>
                 <div>
-                    <textarea value={this.state.title} onChange={this.updateTitle}/>
+                    <textarea className="five columns" value={this.state.title} onChange={this.updateTitle}/>
                 </div>
                 <div>
-                    <textarea value={this.state.body} onChange={this.updateBody}/>
+                    <textarea className="Post-body" value={this.state.body} onChange={this.updateBody}/>
                 </div>
                 <div>
                     <button className="button-primary" onClick={this.submitPost}>Submit</button>

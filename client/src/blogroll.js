@@ -81,7 +81,7 @@ class BlogRoll extends Component {
     render() 
     {
         return (
-            <div className="container">
+            <div className="container u-full-width">
                 <h2>Blog Roll</h2>
                 {this.props.auth &&
                     <button className="button-primary" onClick={() => this.newPost()}>Add Post</button>
@@ -90,23 +90,23 @@ class BlogRoll extends Component {
                 <div>{this.state.status && <span>Loading...</span>}</div>
                 <div>{this.state.error && <span>{this.state.error}</span>}</div>
 
-                <div className="container">
+                <div className="container u-full-width">
                     { this.state.blog.map((post, key) => 
-                        <div key={key} className="u-full-width">
-                          <div className="row">
-                            <div className="one-third column">
-                            {this.props.auth &&
-                                <button className="button-primary" onClick={() => this.editPost(post)}>Edit</button>
-                            }
-                            {this.props.auth &&
-                                <button onClick={() => this.deletePost(post.id)}>Delete</button>
-                            }
+                        <div key={key}>
+                            <div className="panel">
+                                <p>
+                                    {post.title}
+                                    <div className="u-pull-right">
+                                    {this.props.auth &&
+                                        <button className="button-primary" onClick={() => this.editPost(post)}>Edit</button>
+                                    }
+                                    {this.props.auth &&
+                                        <button onClick={() => this.deletePost(post.id)}>Delete</button>
+                                    }
+                                    </div>
+                                </p>
+                                <p>{post.body}</p>
                             </div>
-                            <div className="two-thirds column u-full-width panel">
-                                <p className="u-full-width">{post.title}</p>
-                                <p className="u-full-width">{post.body}</p>
-                            </div>
-                          </div>
                         </div>
                     )}
                 </div>

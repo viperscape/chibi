@@ -33,17 +33,17 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="section login">
+            <div className="container u-full-width">
+                <div className="login">
                     <Login bus={bus} auth={this.state.authorized}/>
                 </div>
                 {(!this.state.edit && !this.state.new) && 
-                <div className="section blogroll">
+                <div className="blogroll">
                     <BlogRoll bus={bus} auth={this.state.authorized}/>
                 </div>
                 }
                 {(this.state.edit || this.state.new) &&
-                <div className="section edit">
+                <div className="edit">
                     <Edit bus={bus} post={this.state.edit}/>
                 </div>
                 }
