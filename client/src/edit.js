@@ -10,7 +10,7 @@ class Edit extends Component
         this.updateTitle = this.updateTitle.bind(this);
         this.updateBody = this.updateBody.bind(this);
 
-        if (this.props.edit) {
+        if (this.props.post) {
             this.state = {
                 title: this.props.post.title,
                 body: this.props.post.body,
