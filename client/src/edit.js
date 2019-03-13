@@ -82,8 +82,8 @@ class Edit extends Component
                     <textarea className="Edit-post-body" value={this.state.body} onChange={this.updateBody}/>
                 </div>
                 <div>
-                    <button onClick={this.submitPost}>Update post</button>
-                    <button onClick={this.reset}>Cancel</button>
+                    <button className="Edit-post-btn" onClick={this.submitPost}>Update post</button>
+                    <button className="Edit-post-btn" onClick={this.reset}>Cancel</button>
                 </div>
             </div>
         );
