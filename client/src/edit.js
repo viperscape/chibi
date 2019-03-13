@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 const config = require("./config.json")
 
 const lorem_body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi gravida ullamcorper quam, a tincidunt odio suscipit in. Pellentesque tempus volutpat nulla, eget hendrerit neque. Pellentesque sit amet convallis orci. Cras tempus dui enim, at pretium nibh dignissim eget. Morbi nec risus enim. Sed in orci sit amet enim posuere varius a nec lectus. Ut imperdiet rutrum quam, ac faucibus velit viverra a. Nullam sodales dolor quis sem condimentum mattis. Phasellus quis odio tempor, egestas nulla lacinia, ultrices mi. "
-+ "\n\nMaecenas ut erat velit. Phasellus eleifend, dui ut vehicula euismod, leo eros tristique ipsum, eu rutrum nisl risus non eros. Sed vestibulum risus ut sapien bibendum mattis. Pellentesque in libero felis. Sed tincidunt quam sit amet est rhoncus, eget luctus libero bibendum. Etiam elementum eu leo sodales pretium. Maecenas eu nunc lacinia, dignissim mauris sit amet, mattis odio. Nulla et nisl et felis sodales placerat. Etiam hendrerit tortor quam, vitae blandit velit rhoncus vel."
++ "Maecenas ut erat velit. Phasellus eleifend, dui ut vehicula euismod, leo eros tristique ipsum, eu rutrum nisl risus non eros. Sed vestibulum risus ut sapien bibendum mattis. Pellentesque in libero felis. Sed tincidunt quam sit amet est rhoncus, eget luctus libero bibendum. Etiam elementum eu leo sodales pretium. Maecenas eu nunc lacinia, dignissim mauris sit amet, mattis odio. Nulla et nisl et felis sodales placerat. Etiam hendrerit tortor quam, vitae blandit velit rhoncus vel."
 
 class Edit extends Component 
 {
