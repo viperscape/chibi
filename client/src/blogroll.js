@@ -83,7 +83,9 @@ class BlogRoll extends Component {
         return (
             <div>
                 <span className="Blog-header"><h2>Blog Roll</h2></span>
-                <button onClick={() => this.newPost()}>Add Post</button>
+                {this.props.auth &&
+                    <button onClick={() => this.newPost()}>Add Post</button>
+                }
 
                 <div>{this.state.status && <span>Loading...</span>}</div>
                 <div>{this.state.error && <span>{this.state.error}</span>}</div>
