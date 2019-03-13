@@ -18,6 +18,9 @@ def blogroll():
 def postEdit():
     if "authorized" in session:
         data = request.get_json()
+        if not isinstance(data["id"], int):
+            return json.dumps({"error": "post id malformed"}), 400
+
         p = Post.query.filter_by(id=data["id"]).first()
         if p: # edit a previous post (this could be moved out to a separate PUT route)
             p.body = data["body"]
@@ -35,6 +38,9 @@ def postEdit():
 def postDelete():
     if "authorized" in session:
         data = request.get_json()
+        if not isinstance(data["id"], int):
+            return json.dumps({"error": "post id malformed"}), 400
+
         p = Post.query.filter_by(id=data["id"]).delete()
         if not p: # no post found
             return json.dumps({"error": "post not found"}), 404
