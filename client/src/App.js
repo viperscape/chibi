@@ -15,13 +15,14 @@ class App extends Component {
         // with the server's session, this is really out of convenience
         // and only so that the react components reflect that on page refreshes
         this.state = {
-            authorized: sessionStorage.getItem("authorized"), 
+            authorized: sessionStorage.getItem("authorized") === "true" ? true:false, 
             edit: null,
             new: false
         };
 
         // handle up-states
-        bus.on("authorized", function (x) { 
+        bus.on("authorized", function (x) {
+            console.log("authorized",x);
             this.setState({authorized: x});
             sessionStorage.setItem("authorized", x);
         }.bind(this) );
