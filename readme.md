@@ -2,6 +2,8 @@
 
 ## Minimal blogging
 
+![Chibi Demo](chibi-demo.gif)
+
 ### Environment
 
 - React front end to be hosted on S3 or Nginx
