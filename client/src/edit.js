@@ -73,7 +73,7 @@ class Edit extends Component
         return (
             <div className="Edit-post">
                 <div>
-                    <span>Editing {this.state.title}</span>
+                    <span>Editing: <b>{this.state.title}</b></span>
                 </div>
                 <div>
                     <textarea className="Edit-post-title" value={this.state.title} onChange={this.updateTitle}/>
@@ -82,7 +82,7 @@ class Edit extends Component
                     <textarea className="Edit-post-body" value={this.state.body} onChange={this.updateBody}/>
                 </div>
                 <div>
-                    <button className="Edit-post-btn" onClick={this.submitPost}>Update post</button>
+                    <button className="Edit-post-btn" onClick={this.submitPost}>Submit</button>
                     <button className="Edit-post-btn" onClick={this.reset}>Cancel</button>
                 </div>
             </div>
