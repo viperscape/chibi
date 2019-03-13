@@ -71,19 +71,24 @@ class Edit extends Component
     render()
     {
         return (
-            <div className="Edit-post">
+            <div className="container">
                 <div>
-                    <span>Editing: <b>{this.state.title}</b></span>
+                    {this.props.post &&
+                    <span>Editing: <strong>{this.props.post.title}</strong></span>
+                    }
+                    {!this.props.post &&
+                    <span>Creating New Post</span>
+                    }
                 </div>
                 <div>
-                    <textarea className="Edit-post-title" value={this.state.title} onChange={this.updateTitle}/>
+                    <textarea value={this.state.title} onChange={this.updateTitle}/>
                 </div>
                 <div>
-                    <textarea className="Edit-post-body" value={this.state.body} onChange={this.updateBody}/>
+                    <textarea value={this.state.body} onChange={this.updateBody}/>
                 </div>
                 <div>
-                    <button className="Edit-post-btn" onClick={this.submitPost}>Submit</button>
-                    <button className="Edit-post-btn" onClick={this.reset}>Cancel</button>
+                    <button className="button-primary" onClick={this.submitPost}>Submit</button>
+                    <button onClick={this.reset}>Cancel</button>
                 </div>
             </div>
         );

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import "./skeleton/normalize.css";
+import './skeleton/skeleton.css';
+import "./App.css";
 
 import BlogRoll from "./blogroll";
 import Login from "./login";
@@ -31,16 +33,20 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-                <Login bus={bus} auth={this.state.authorized}/>
-                <header className="App-main">
-                    {(!this.state.edit && !this.state.new) && 
-                        <BlogRoll bus={bus} auth={this.state.authorized}/>
-                    }
-                    {(this.state.edit || this.state.new) &&
-                        <Edit bus={bus} post={this.state.edit}/>
-                    }
-                </header>
+            <div className="container">
+                <div className="section login">
+                    <Login bus={bus} auth={this.state.authorized}/>
+                </div>
+                {(!this.state.edit && !this.state.new) && 
+                <div className="section blogroll">
+                    <BlogRoll bus={bus} auth={this.state.authorized}/>
+                </div>
+                }
+                {(this.state.edit || this.state.new) &&
+                <div className="section edit">
+                    <Edit bus={bus} post={this.state.edit}/>
+                </div>
+                }
             </div>
         );
     }

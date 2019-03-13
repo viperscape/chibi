@@ -77,7 +77,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="Login">
+            <div className="container">
                 {this.state.status === StatusUnauthorized &&
                     <div>
                         <span>Failed to authorize, try again</span>
@@ -88,19 +88,20 @@ class Login extends Component {
                     <button onClick={this.showLogin}>Login Now</button>
                 }
                 {this.state.status === StatusLogin && 
-                    <div>
-                        <label>
-                            Username:
-                            <input ref={this.user}/>
-                        </label>
-                        <br></br>
-                        <label>
-                            Password:
-                            <input ref={this.password}/>
-                        </label>
-                        <br></br>
-                        <button onClick={this.login}>Login</button>
-                    </div>
+                    <form>
+                        <div className="row u-pull-left">
+                            <div class="six columns">
+                            <label>Username</label>
+                            <input className="u-full-width" ref={this.user} type="email" placeholder="john.doe"/>
+                            </div>
+
+                            <div class="six columns">
+                            <label>Password</label>
+                            <input className="u-full-width" ref={this.password} type="password" />
+                            </div>
+                        </div>
+                        <button className="button-primary u-pull-right" onClick={this.login}>Login</button>
+                    </form>
                 }
                 {this.state.status === StatusAuthorizing &&
                     <span>Authorizing...</span>
