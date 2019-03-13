@@ -22,7 +22,6 @@ class App extends Component {
 
         // handle up-states
         bus.on("authorized", function (x) {
-            console.log("authorized",x);
             this.setState({authorized: x});
             sessionStorage.setItem("authorized", x);
         }.bind(this) );
