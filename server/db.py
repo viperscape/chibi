@@ -1,9 +1,13 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
+engine = create_engine('sqlite:///blog.db')
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-def init_db(app, dbfile):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(dbfile)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
-    db = SQLAlchemy(app)
-    return db
+Base = declarative_base()
+Base.query = db_session.query_property()
+
+def init_db():
+    from post import Post
+    Base.metadata.create_all(bind=engine)

@@ -1,9 +1,11 @@
-from app import db as base
+from sqlalchemy import Column, Integer, String
+from db import Base
 
-class Post(base.Model):
-    id = base.Column(base.Integer, primary_key=True)
-    title = base.Column(base.String(80), unique=True, nullable=False)
-    body = base.Column(base.String(2048))
+class Post(Base):
+    __tablename__ = 'posts'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(80), unique=True, nullable=False)
+    body = Column(String(2048))
 
     def __repr__(self):
         return "<Title: {}>".format(self.title)

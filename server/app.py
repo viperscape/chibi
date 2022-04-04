@@ -1,20 +1,17 @@
 from flask import Flask
-from db import init_db
+from db import init_db, db_session
 from flask_cors import CORS
+from routes import routes
 
 app = Flask(__name__)
-db = init_db(app, "blog.db")
+init_db()
 CORS(app, supports_credentials=True)
 
-if __name__ == "__main__":
-    try: # setup initial db post
-        from routes import routes
-        from post import Post
-        db.create_all()
-        
-    except Exception as Error:
-        print("init post error", Error)
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
 
+if __name__ == "__main__":
     app.register_blueprint(routes)
 
     import os

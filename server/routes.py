@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import redirect, url_for
 import json
 from post import Post
-from app import db
+from db import db_session
 
 routes = Blueprint('routes', __name__)
 
@@ -27,9 +27,9 @@ def postEdit():
             p.title = data["title"]
         else: # add a new post
             p = Post(title=data["title"], body=data["body"])
-            db.session.add(p)
+            db_session.add(p)
 
-        db.session.commit()
+        db_session.commit()
         return json.dumps({"ok": "post updated"})
     else:
         return json.dumps({"error": "not authorized"}), 403
@@ -45,7 +45,7 @@ def postDelete():
         if not p: # no post found
             return json.dumps({"error": "post not found"}), 404
 
-        db.session.commit()
+        db_session.commit()
         return json.dumps({"ok": "post updated"})
     else:
         return json.dumps({"error": "not authorized"}), 403
