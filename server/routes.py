@@ -2,7 +2,7 @@ from flask import Flask, request, make_response, session
 from flask import Blueprint
 from flask import redirect, url_for
 import json
-from post import Post
+from models import Post
 from db import db_session
 
 routes = Blueprint('routes', __name__)
