@@ -1,6 +1,8 @@
-# Chibi
+# Chibi - minimal blog
 
-## Minimal blogging
+## About
+
+This is an example minimal REST API written in Python using Flask, SQLAlchemy ORM, and a local SQLite3 database that gets generated on startup. The frontend is a React UI that fetches the content from the backend, it uses an event emitter for the sub components to easily change views. The frontend is intended to be hosted separately from Flask, using something like Nginx with SSL configured.
 
 ![Chibi Demo](chibi-demo.gif)
 
