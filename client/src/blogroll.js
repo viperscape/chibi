@@ -96,6 +96,7 @@ class BlogRoll extends Component {
                             <div className="panel u-full-width">
                                 <p>
                                     {post.title}
+                                    <div className="u-pull-right"><p>by <i>{post.author}</i></p></div>
                                     <div className="u-pull-right">
                                     {this.props.auth &&
                                         <button className="button-primary" onClick={() => this.editPost(post)}>Edit</button>

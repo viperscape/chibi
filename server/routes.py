@@ -10,7 +10,7 @@ routes = Blueprint('routes', __name__)
 @routes.route('/blog/', methods=["GET"])
 def blogroll():
     q = Post.query.order_by(Post.id.desc()).limit(5)
-    posts = [{"id":post.id, "title": post.title, "body": post.body} for post in q]
+    posts = [{"id":post.id, "title": post.title, "body": post.body, "author": post.author.decode("utf-8")} for post in q]
     blog = {"posts":posts}
     return json.dumps(blog)
 
@@ -26,7 +26,7 @@ def postEdit():
             p.body = data["body"]
             p.title = data["title"]
         else: # add a new post
-            p = Post(title=data["title"], body=data["body"])
+            p = Post(title=data["title"], body=data["body"], author=session["author"].encode("utf-8"))
             db_session.add(p)
 
         db_session.commit()
@@ -56,6 +56,7 @@ def login():
     if req == None: return json.dumps({"error": "invalid request"}), 400
 
     session["authorized"] = validate_user(req["username"], req["password"])
+    session["author"] = req["username"]
 
     status = {"authorized": session["authorized"]}
     return json.dumps(status)

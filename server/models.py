@@ -5,7 +5,8 @@ class Post(Base):
     __tablename__ = 'posts'
     id = Column(Integer, primary_key=True)
     title = Column(String(80), unique=True, nullable=False)
-    body = Column(String(2048))
+    body = Column(String(2048), nullable=False)
+    author = Column(String(80), nullable=False)
 
     def __repr__(self):
         return "<Title: {}>".format(self.title)
