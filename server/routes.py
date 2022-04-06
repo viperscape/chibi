@@ -2,8 +2,8 @@ from flask import Flask, request, make_response, session
 from flask import Blueprint
 from flask import redirect, url_for
 import json
-from models import Post
-from db import db_session
+from models import Post, User
+from db import db_session, validate_user
 
 routes = Blueprint('routes', __name__)
 
@@ -55,10 +55,7 @@ def login():
     req = request.get_json(silent=True)
     if req == None: return json.dumps({"error": "invalid request"}), 400
 
-    if req["username"] == "admin" and req["password"] == "pass":
-        session["authorized"] = True
-    else:
-        session["authorized"] = False
+    session["authorized"] = validate_user(req["username"], req["password"])
 
     status = {"authorized": session["authorized"]}
     return json.dumps(status)
