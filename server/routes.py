@@ -10,9 +10,15 @@ routes = Blueprint('routes', __name__)
 @routes.route('/blog/', methods=["GET"])
 def blogroll():
     q = Post.query.order_by(Post.id.desc()).limit(5)
-    posts = [{"id":post.id, "title": post.title, "body": post.body, "author": post.author.decode("utf-8")} for post in q]
+    posts = [{
+        "id": post.id, 
+        "title": post.title, 
+        "body": post.body, 
+        "author": post.author, 
+        "time": post.time_created
+        } for post in q]
     blog = {"posts":posts}
-    return json.dumps(blog)
+    return json.dumps(blog, default=str)
 
 @routes.route('/blog/', methods=["POST"])
 def postEdit():
@@ -26,7 +32,7 @@ def postEdit():
             p.body = data["body"]
             p.title = data["title"]
         else: # add a new post
-            p = Post(title=data["title"], body=data["body"], author=session["author"].encode("utf-8"))
+            p = Post(title=data["title"], body=data["body"], author=session["author"])
             db_session.add(p)
 
         db_session.commit()

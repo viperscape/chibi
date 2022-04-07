@@ -18,28 +18,29 @@ def init_db():
 
 
 def create_admin():
+    from models import User
     username = "admin"
     password = "pass"
     email = "admin@example.com"
-
-    print("Login: admin, pass")
-    create_user(username, password, email)
+    print("Login:", username, password)
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        create_user(username, password, email)
 
 
 def create_user(username, password, email):
     from models import User
-    if not User.query.filter_by(username=username.encode("utf-8")).first():
-        # NOTE password max len is 72 char
-        hash_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(14))
-        user = User(username=username.encode("utf-8"), password=hash_password, email=email)
+    # NOTE password max len is 72 char
+    hash_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(14))
+    user = User(username=username, password=hash_password, email=email)
 
-        try:
-            db_session.add(user)
-            db_session.commit()
-        except exc.DatabaseError as error:
-            print("Create User Error:", error.orig)
+    try:
+        db_session.add(user)
+        db_session.commit()
+    except exc.DatabaseError as error:
+        print("Create User Error:", error.orig)
 
 def validate_user(username, password):
     from models import User
-    user = User.query.filter_by(username=username.encode("utf-8")).first()
+    user = User.query.filter_by(username=username).first()
     return (user != None) and bcrypt.checkpw(password.encode("utf-8"), user.password)
