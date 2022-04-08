@@ -8,20 +8,25 @@ class BlogRoll extends Component {
         this.state = {blog:[], loading: true, error: null};
     }
 
-    getBlog()
+    async getBlog()
     {
-        return fetch(config.backend.server + "/blog/")
-        .then(function(res) {
-            return res.json();
-        })
-        .catch(function(err)
+        try
+        {
+            let resp = await fetch(config.backend.server + "/blog/");
+            resp = await resp.json();
+            this.setState({
+                blog: resp.posts,
+                loading: false
+            });
+        }
+        catch(err)
         {
             console.error(err)
             this.setState({
                 error: "Server communication error",
                 loading: false
             });
-        }.bind(this));
+        }
     }
 
     editPost(post)
@@ -34,48 +39,38 @@ class BlogRoll extends Component {
         this.props.bus.emit("new", true);
     }
 
-    getPosts()
-    {
-        this.getBlog().then(function(res) {
-            this.setState({
-                blog: res.posts,
-                loading: false
-            });
-        }.bind(this));
-    }
-
     componentDidMount()
     {
-        this.getPosts();
+        this.getBlog();
     }
 
-    deletePost(id)
+    async deletePost(id)
     {
-        fetch(config.backend.server + "/blog/", {
-            method: "DELETE",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({id: id})
-        })
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function (res){
-            console.log(res)
+        try
+        {
+            let resp = await fetch(config.backend.server + "/blog/", {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({id: id})
+            });
+
+            resp = await resp.json();
+            console.log(resp)
             this.props.bus.emit("edit", null);
             this.props.bus.emit("new", false);
-            this.getPosts();
-        }.bind(this))
-        .catch(function(err)
+            this.getBlog();
+        }
+        catch (err)
         {
             console.error(err)
             this.setState({
                 error: "Server communication error",
                 loading: false
             });
-        }.bind(this));
+        }
     }
 
     render() 
@@ -94,20 +89,18 @@ class BlogRoll extends Component {
                     { this.state.blog.map((post, key) => 
                         <div key={key}>
                             <div className="panel u-full-width">
-                                <p>
-                                    {post.title}
-                                    <div className="u-pull-right">
-                                    {this.props.auth &&
-                                        <button className="button-primary" onClick={() => this.editPost(post)}>Edit</button>
-                                    }
-                                    {this.props.auth &&
-                                        <button onClick={() => this.deletePost(post.id)}>Delete</button>
-                                    }
-                                    </div>
-                                </p>
+                                {post.title}
+                                <div className="u-pull-right">
+                                {this.props.auth &&
+                                    <button className="button-primary" onClick={() => this.editPost(post)}>Edit</button>
+                                }
+                                {this.props.auth &&
+                                    <button onClick={() => this.deletePost(post.id)}>Delete</button>
+                                }
+                                </div>
                                 <p>{post.body}</p>
                                 
-                                <div class="u-pull-left">
+                                <div className="u-pull-left">
                                     <p>by <i>{post.author}</i><br></br>
                                     <i>on {post.time}</i></p>
                                 </div>
