@@ -31,11 +31,17 @@ def postEdit():
             p.body = data["body"]
             p.title = data["title"]
         else: # add a new post
-            p = Post(title=data["title"], body=data["body"], author=session["author"])
-            db_session.add(p)
+            user = User.query.filter_by(email=session["email"]).first()
+            if user:
+                p = Post(title=data["title"], body=data["body"], author=user.username)
+                db_session.add(p)
+            else:
+                return json.dumps({"error": "not authorized"}), 403
 
         db_session.commit()
         return json.dumps({"ok": "post updated"})
+        
+            
     else:
         return json.dumps({"error": "not authorized"}), 403
 
@@ -62,7 +68,7 @@ def login():
         session["authorized"] = validate_user(r["email"], r["password"])
 
         if session["authorized"]:
-            session["author"] = r["email"]
+            session["email"] = r["email"]
             status = {"authorized": session["authorized"]}
             return json.dumps(status)
         else:
