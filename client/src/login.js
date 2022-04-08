@@ -10,8 +10,8 @@ const StatusNone = 0,
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {status: this.props.auth? StatusAuthorized : StatusNone};
-        this.user = React.createRef();
+        this.state = {status: this.props.auth? StatusAuthorized : StatusNone}; // on page refresh, keep auth status
+        this.email = React.createRef();
         this.password = React.createRef();
 
         this.showLogin = this.showLogin.bind(this);
@@ -19,33 +19,44 @@ class Login extends Component {
         this.logout = this.logout.bind(this);
     }
 
-    login(event)
+    async login(event)
     {
-        fetch(config.backend.server + "/login/", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({"username": this.user.current.value, "password": this.password.current.value })
-        })
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(res) {
-            this.props.bus.emit("authorized", res.authorized);
-            this.setState({
-                status: res.authorized? StatusAuthorized:StatusUnauthorized
+        event.preventDefault() // NOTE prevents a refresh of the page during a POST in a fetch
+
+        if (!this.email.current.value || !this.password.current.value)
+            return;
+
+        this.setState({
+            status: StatusAuthorizing
+        });
+        try
+        {
+            let resp = await fetch(config.backend.server + "/login/", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: this.email.current.value, 
+                    password: this.password.current.value 
+                })
             });
-        }.bind(this))
-        .catch(function(err)
+
+            resp = await resp.json();
+            this.props.bus.emit("authorized", resp.authorized);
+            this.setState({
+                status: resp.authorized? StatusAuthorized:StatusUnauthorized
+            });
+        }
+        catch (err)
         {
             console.error(err)
             this.setState({
                 error: "Server communication error",
-                status: StatusUnauthorized
+                status: StatusNone
             });
-        }.bind(this));
+        }
     }
 
     
@@ -56,18 +67,18 @@ class Login extends Component {
             method: "GET",
             credentials: "include"
         })
-        .then(function(res) {
+        .then((res) => {
             this.setState({
                 status: StatusNone
             });
-        }.bind(this))
-        .catch(function(err)
+        })
+        .catch((err) =>
         {
             console.error(err)
             this.setState({
                 error: "Server communication error"
             });
-        }.bind(this));
+        });
     }
 
     showLogin(event)
@@ -90,12 +101,12 @@ class Login extends Component {
                 {this.state.status === StatusLogin && 
                     <form>
                         <div className="row u-pull-left">
-                            <div class="six columns">
-                            <label>Username</label>
-                            <input className="u-full-width" ref={this.user} type="email" placeholder="john.doe"/>
+                            <div className="six columns">
+                            <label>Email</label>
+                            <input className="u-full-width" ref={this.email} type="email" placeholder="john.doe@website.com"/>
                             </div>
 
-                            <div class="six columns">
+                            <div className="six columns">
                             <label>Password</label>
                             <input className="u-full-width" ref={this.password} type="password" />
                             </div>

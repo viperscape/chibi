@@ -1,6 +1,5 @@
-from flask import Flask, request, make_response, session
+from flask import request, session
 from flask import Blueprint
-from flask import redirect, url_for
 import json
 from models import Post, User
 from db import db_session, validate_user
@@ -58,14 +57,19 @@ def postDelete():
 
 @routes.route('/login/', methods=["POST"])
 def login():
-    req = request.get_json(silent=True)
-    if req == None: return json.dumps({"error": "invalid request"}), 400
+    try:
+        r = request.get_json(silent=True)
+        session["authorized"] = validate_user(r["email"], r["password"])
 
-    session["authorized"] = validate_user(req["username"], req["password"])
-    session["author"] = req["username"]
-
-    status = {"authorized": session["authorized"]}
-    return json.dumps(status)
+        if session["authorized"]:
+            session["author"] = r["email"]
+            status = {"authorized": session["authorized"]}
+            return json.dumps(status)
+        else:
+            return json.dumps({"error": "not authorized"}), 403
+    except:
+        return json.dumps({"error": "invalid request"}), 400
+    
 
 @routes.route('/logout/')
 def logout():

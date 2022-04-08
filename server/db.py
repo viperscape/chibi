@@ -22,7 +22,7 @@ def create_admin():
     username = "admin"
     password = "pass"
     email = "admin@example.com"
-    print("Login:", username, password)
+    print("Login:", email, password)
     user = User.query.filter_by(username=username).first()
     if not user:
         create_user(username, password, email)
@@ -40,7 +40,7 @@ def create_user(username, password, email):
     except exc.DatabaseError as error:
         print("Create User Error:", error.orig)
 
-def validate_user(username, password):
+def validate_user(email, password):
     from models import User
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(email=email).first()
     return (user != None) and bcrypt.checkpw(password.encode("utf-8"), user.password)
