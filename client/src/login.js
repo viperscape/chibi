@@ -29,6 +29,7 @@ class Login extends Component {
         this.setState({
             status: StatusAuthorizing
         });
+        
         try
         {
             let resp = await fetch(config.backend.server + "/login/", {
@@ -60,25 +61,28 @@ class Login extends Component {
     }
 
     
-    logout(event)
+    async logout(event)
     {
         this.props.bus.emit("authorized", false);
-        fetch(config.backend.server + "/logout/", {
-            method: "GET",
-            credentials: "include"
-        })
-        .then((res) => {
+        try
+        {
+            await fetch(config.backend.server + "/logout/", {
+                method: "GET",
+                credentials: "include"
+            });
+        
+            
             this.setState({
                 status: StatusNone
             });
-        })
-        .catch((err) =>
+        }
+        catch (err)
         {
             console.error(err)
             this.setState({
                 error: "Server communication error"
             });
-        });
+        }
     }
 
     showLogin(event)
